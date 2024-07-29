@@ -22,16 +22,21 @@ namespace EShop.Pages.Admin
             Users = _context.Users.ToList();
         }
 
-        public IActionResult OnPostMakeAdmin([FromBody] int id)
+        public IActionResult OnPostMakeAdmin([FromBody] MyUserModel model)
         {
-            var user = _context.Users.Find(id);
+            var user = _context.Users.Find(model.id);
             user.IsAdmin = true;
             _context.SaveChanges();
             return RedirectToPage("/Admin");
         }
 
-        public IActionResult OnPostRemoveAdmin(int userId)
+        public IActionResult OnPostRemoveAdmin([FromBody] MyUserModel model)
         {
+            var user = _context.Users.Find(model.id);
+            if (user == null)
+                return NotFound();
+            user.IsAdmin = false;
+            _context.SaveChanges();
             return RedirectToPage("/Admin");
         }
 
@@ -40,10 +45,18 @@ namespace EShop.Pages.Admin
             return RedirectToPage("/Edit", new { id = userId });
         }
 
-        public IActionResult OnPostDelete(int userId)
+        public IActionResult OnPostDelete([FromBody] MyUserModel model)
         {
+            var user = _context.Users.Find(model.id);
+            if (user == null)
+                return NotFound();
+            _context.Remove(user);
+            _context.SaveChanges();
             return RedirectToPage("/Admin");
         }
     }
-
+    public class MyUserModel
+    {
+        public int id { get; set; }
+    }
 }

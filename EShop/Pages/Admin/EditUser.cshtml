@@ -1,0 +1,71 @@
+﻿@page
+@model EShop.Pages.Admin.EditUserModel
+@{
+    ViewData["Title"] = "ویرایش کاربر سایت";
+}
+<br />
+<h1>ویرایش کاربر سایت</h1>
+
+<hr />
+
+
+@* <input type="hidden" asp-for="User.Id" /> *@
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" action="">
+
+            <input type="hidden" asp-for="User.Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="User.FirstName" class="control-label">نام</label>
+                        <input asp-for="User.FirstName" class="form-control" />
+                        <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="User.LastName" class="control-label">نام خانوادگی</label>
+                        <input asp-for="User.LastName" class="form-control" />
+                        <span asp-validation-for="User.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="User.PhoneNumber" class="control-label">شماره همراه</label>
+                        <input maxlength="11" asp-for="User.PhoneNumber" class="form-control" />
+                        <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="User.Email" class="control-label">ایمیل</label>
+                        <input asp-for="User.Email" class="form-control" />
+                        <span asp-validation-for="User.Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="User.Password" class="control-label">رمزعبور</label>
+                        <input asp-for="User.Password" class="form-control" />
+                        <span asp-validation-for="User.Password" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ویرایش مشخصات کاربر سایت" class="btn btn-outline-success" />
+            </div>
+        </form>
+    </div>
+</div>
