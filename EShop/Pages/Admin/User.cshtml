@@ -1,0 +1,141 @@
+﻿@page
+@model EShop.Pages.Admin.UserModel
+@{
+    ViewData["Title"] = "مدیریت کاربران سایت";
+}
+
+<br />
+
+<h1> مشخصات کاربران سایت .. </h1>
+<br />
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center">نام و نام خانوادگی</th>
+            <th class="text-center">نام کاربری</th>
+            <th class="text-center">رمزعبور</th>
+            <th class="text-center">شماره همراه</th>
+            <th class="text-center">ایمیل</th>
+            <th class="text-center">دسترسی مدیر</th>
+            <th class="text-center">تاریخ ثبت نام</th>
+            <th class="text-center">تغییر دسترسی</th>
+            <th class="text-center">دستورات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users.ToList())
+        {
+            <tr>
+                <td>
+                    @item.FirstName @item.LastName
+                </td>
+                <td>
+                    @item.Username
+                </td>
+                <td>
+                    @item.Password
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @if (item.IsAdmin)
+                    {
+                        <text>دارد</text>
+                    }
+                    else
+                    {
+                        <text>ندارد</text>
+                    }
+
+                </td>
+                <td>
+                    @item.PersianDate
+                </td>
+                @if (item.IsAdmin)
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <a class="btn btn-secondary" data-id="@item.Id">مدیر نباشد</a>
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form method="post" asp-page-handler="MakeAdmin">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <a class="btn btn-success" data-id="@item.Id">مدیر شود</a>
+                        </form>
+                    </td>
+                }
+                <td>
+                    <a class="btn btn-warning" asp-page="Edit" asp-route-id="@item.Id">ویرایش</a>
+                    <a class="btn btn-danger" data-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const isAdminButtons = document.querySelectorAll('.btn.btn-success');
+
+        isAdminButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const userId = this.getAttribute('data-id');
+                const form = this.closest('form');
+                const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                Swal.fire({
+                    title: 'آیا مطمئن هستید؟',
+                    text: "آیا شما قصد دارید این کاربر را مدیر کنید؟",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'بله، مطمئنم!',
+                    cancelButtonText: 'خیر'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/User?handler=MakeAdmin`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': token
+                            },
+                            body: JSON.stringify({ id: userId })
+                        }).then(response => {
+                            if (response.ok) {
+                                Swal.fire(
+                                    'کاربر مدیر شد!',
+                                    'عملیات با موفقیت انجام شد.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'خطا!',
+                                    'خطایی در انجام عملیات رخ داد.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    });
+
+</script>
+

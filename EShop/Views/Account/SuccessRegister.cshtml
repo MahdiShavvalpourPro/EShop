@@ -1,0 +1,19 @@
+﻿@model EShop.Models.Dto.UserSingUpDto;
+
+@{
+    ViewData["Title"] = "تبریک";
+}
+<br />
+<br />
+<br />
+<div class="alert alert-dismissible alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading">تبریک</h4>
+    <p class="mb-0"> کاربر عزیز با شماره همراه '@Model.PhoneNumber' ثبت نام شما با موفقیت در سایت انجام شد . برای دسترسی به بخش های مختلف سایت باید وارد شوید </p>
+
+    <p>
+        <a asp-action="Login" asp-controller="Account">ورود به سایت</a>
+    </p>
+
+</div>
+

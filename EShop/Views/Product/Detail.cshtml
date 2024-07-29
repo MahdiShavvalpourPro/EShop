@@ -1,0 +1,38 @@
+﻿@using EShop.Models.Dto
+@model DetailProduct
+
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
+
+<div class="">
+    <h1 class="display-5">"@(Model.Product.Name)"</h1>
+    <hr />
+    <img class="img-thumbnail" src="@($"/Images/{Model.Product.Id}.jpg")" alt="@Model.Product.Name" />
+    <p class="py-5 text-justify">@Model.Product.Description</p>
+    <p style="color:orangered">
+        @{
+            if (Model.Product.Price == 0)
+            {
+                <text>رایگان</text>
+            }
+            else
+            {
+                <text>@Model.Product.Price تومان</text>
+            }
+        }
+    </p>
+
+    <dl>
+        @foreach (var item in Model.Categories)
+        {
+            <dt>@item.Name</dt>
+            <dd>@item.Description</dd>
+        }
+    </dl>
+    <a class="btn btn-primary" asp-action="AddToCart" asp-controller="Product" asp-route-itemId="@Model.Product.ItemId">
+        افزودن به سبد خرید
+    </a>
+
+</div>
+

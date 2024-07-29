@@ -1,0 +1,22 @@
+﻿@using EShop.Models.Entities
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "فروشگاه اینترنتی من";
+}
+
+<div class="text-center">
+    <br />
+    <h1 class="display-4">به فروشگاه من خوش آمدید</h1>
+
+    <hr />
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <partial name="_BoxProduct" model="@item"></partial>
+        }
+    </div>
+
+</div>
+
+

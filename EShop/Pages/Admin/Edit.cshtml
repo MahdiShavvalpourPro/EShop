@@ -1,0 +1,55 @@
+﻿@page
+@model EShop.Pages.Admin.EditModel
+@{
+    ViewData["Title"] = "پنل مدیریت";
+}
+
+<br />
+<h1>ویرایش محصول</h1>
+<hr />
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="ProductDto.Id" />
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Name" class="control-label"></label>
+        <input asp-for="ProductDto.Name" class="form-control" />
+        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Description" class="control-label"></label>
+        <textarea asp-for="ProductDto.Description" class="form-control"></textarea>
+        <span asp-validation-for="ProductDto.Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Price" class="control-label"></label>
+        <input asp-for="ProductDto.Price" class="form-control" />
+        <span asp-validation-for="ProductDto.Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.QuantityInStock" class="control-label"></label>
+        <input asp-for="ProductDto.QuantityInStock" class="form-control" />
+        <span asp-validation-for="ProductDto.QuantityInStock" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">تصویر فعلی محصول</label>
+        <img src="/Images/@(Model.ProductDto.Id).jpg" style="max-width:400px;border: 1px solid gray;padding:3px" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">تصویر جدید کالا</label>
+        <input asp-for="ProductDto.Picture" type="file" class="form-control-file" />
+        <span asp-validation-for="ProductDto.Picture" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ویرایش محصول</button>
+
+</form>
+
+
+

@@ -1,0 +1,25 @@
+﻿@using EShop.Models.Entities
+@model Product
+
+<div class="col-4" style="max-width: 20rem;padding:5px">
+    <div class="card">
+        <img src="/Images/@(Model.Id).jpg" height="160" width="160" class="card-img-top img-thumbnail" />
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <div style="color:red" class="button">
+                @{
+                    if (Model.Price == 0)
+                    {
+                        <text>رایگان</text>
+                    }
+                    else
+                    {
+                        <text>@Model.Price تومان</text>
+                    }
+                }
+            </div>
+            <hr />
+            <a asp-action="Detail" asp-controller="Product" asp-route-id="@Model.Id">جزئیات بیشتر</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿@page
+@model EShop.Pages.Admin.AddModel
+@{
+    ViewData["Title"] = "پنل مدیریت";
+}
+
+<br />
+<h1>اضافه کردن محصول جدید</h1>
+<hr />
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Name" class="control-label"></label>
+        <input asp-for="ProductDto.Name" class="form-control" />
+        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Description" class="control-label"></label>
+        <textarea asp-for="ProductDto.Description" class="form-control"></textarea>
+        <span asp-validation-for="ProductDto.Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Price" class="control-label"></label>
+        <input asp-for="ProductDto.Price" class="form-control" />
+        <span asp-validation-for="ProductDto.Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.QuantityInStock" class="control-label"></label>
+        <input asp-for="ProductDto.QuantityInStock" class="form-control" />
+        <span asp-validation-for="ProductDto.QuantityInStock" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductDto.Picture" class="control-label"></label>
+        <input asp-for="ProductDto.Picture" type="file" class="form-control-file" />
+        <span asp-validation-for="ProductDto.Picture" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ثبت محصول</button>
+
+</form>
+
+
