@@ -1,7 +1,10 @@
 using EShop.Data;
 using EShop.Models.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace EShop.Pages.Admin
 {
@@ -22,21 +25,55 @@ namespace EShop.Pages.Admin
             Users = _context.Users.ToList();
         }
 
-        public IActionResult OnPostMakeAdmin([FromBody] MyUserModel model)
+        public async Task<IActionResult> OnPostMakeAdminAsync([FromBody] MyUserModel model)
         {
-            var user = _context.Users.Find(model.id);
-            user.IsAdmin = true;
+            var getUser = _context.Users.Find(model.id);
+            getUser.IsAdmin = true;
             _context.SaveChanges();
+
+            var user = User as ClaimsPrincipal;
+
+            var newClaim = new Claim("IsAdmin", getUser.IsAdmin.ToString());
+
+            var oldClaim = user.FindFirst("IsAdmin");
+
+            if (oldClaim != null)
+            {
+                var identity = user.Identity as ClaimsIdentity;
+                identity.RemoveClaim(oldClaim);
+                identity.AddClaim(newClaim);
+            }
+
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user, authProperties);
+
             return RedirectToPage("/Admin");
         }
 
-        public IActionResult OnPostRemoveAdmin([FromBody] MyUserModel model)
+        public async Task<IActionResult> OnPostRemoveAdminAsync([FromBody] MyUserModel model)
         {
-            var user = _context.Users.Find(model.id);
-            if (user == null)
+            var getUser = _context.Users.Find(model.id);
+            if (getUser == null)
                 return NotFound();
-            user.IsAdmin = false;
+            getUser.IsAdmin = false;
             _context.SaveChanges();
+
+            var user = User as ClaimsPrincipal;
+
+            var newClaim = new Claim("IsAdmin", getUser.IsAdmin.ToString());
+
+            var oldClaim = user.FindFirst("IsAdmin");
+
+            if (oldClaim != null)
+            {
+                var identity = user.Identity as ClaimsIdentity;
+                identity.RemoveClaim(oldClaim);
+                identity.AddClaim(newClaim);
+            }
+
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user, authProperties);
+
             return RedirectToPage("/Admin");
         }
 
@@ -56,7 +93,25 @@ namespace EShop.Pages.Admin
         }
     }
     public class MyUserModel
-    {
+    {   
+        //public static void UpdateClaim(bool item,string claimName, string oldClaimName)
+        //{
+        //    var user = User as ClaimsPrincipal;
+
+        //    var newClaim = new Claim(claimName, item.ToString());
+
+        //    var oldClaim = user.FindFirst(oldClaimName);
+
+        //    if (oldClaim != null)
+        //    {
+        //        var identity = user.Identity as ClaimsIdentity;
+        //        identity.RemoveClaim(oldClaim);
+        //        identity.AddClaim(newClaim);
+        //    }
+
+        //    var authProperties = new AuthenticationProperties { IsPersistent = true };
+        //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user, authProperties);
+        //}
         public int id { get; set; }
     }
 }

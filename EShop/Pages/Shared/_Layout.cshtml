@@ -25,7 +25,7 @@
                         <a class="btn btn-success" asp-page="Add">افزودن کالا</a>
                     </li>
                     <li>
-                        <a class="btn btn-success" asp-controller="Product" asp-action="Index" >صفحه اصلی سایت</a>
+                        <a class="btn btn-success" asp-controller="Product" asp-action="Index">صفحه اصلی سایت</a>
                     </li>
                     <li>
                         <a class="btn btn-success" asp-page="User">مدیریت کاربران سایت</a>
@@ -37,5 +37,6 @@
             @RenderBody()
         </div>
     </div>
+    @RenderSection("scripts", false);
 </body>
 </html>

@@ -1,5 +1,6 @@
 using EShop.Data;
 using EShop.Data.Repositories;
+using EShop.Middleware;
 using EShop.Models.Dto;
 using EShop.Validation;
 using FluentValidation;
@@ -7,6 +8,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,17 +61,24 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+
+app.UseAdminCheck();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Product}/{action=Index}/{id?}");
 
+
+
+
+
 app.Run();
+

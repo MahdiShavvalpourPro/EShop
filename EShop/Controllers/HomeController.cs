@@ -32,5 +32,12 @@ namespace EShop.Controllers
         {
             return View();
         }
+
+
+        [HttpGet]
+        public ActionResult NotFound()
+        {
+            return View();
+        }
     }
 }

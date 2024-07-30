@@ -84,7 +84,8 @@ namespace EShop.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName),
-                new Claim(ClaimTypes.MobilePhone,user.PhoneNumber!)
+                new Claim(ClaimTypes.MobilePhone,user.PhoneNumber!),
+                new Claim("IsAdmin",user.IsAdmin.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
