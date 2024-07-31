@@ -1,7 +1,6 @@
 ﻿using EShop.Data;
 using EShop.Data.Repositories;
 using EShop.Models.Dto;
-using EShop.Models.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -27,28 +26,32 @@ namespace EShop.Controllers
         [HttpPost]
         public IActionResult SingUp(UserSingUpDto userDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (_userRepository.UserExists(userDto.PhoneNumber) == false)
-                {
-                    _userRepository.AddUser(new Models.Entities.User()
-                    {
-                        FirstName = userDto.FirstName,
-                        LastName = userDto.LastName,
-                        Username = userDto.PhoneNumber,
-                        Password = userDto.Password,
-                        Email = userDto.Email,
-                        PhoneNumber = userDto.PhoneNumber
-                    });
-                    return View("SuccessRegister", userDto);
-                }
-                else
-                {
-                    ModelState.AddModelError("PhoneNumber", "کاربری با این شماره قبلا در سایت ثبت نام کرده است");
-                    return View(userDto);
-                }
+                return View(userDto);
             }
-            return View(userDto);
+                
+            _userRepository.AddUser(new Models.Entities.User()
+            {
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Username = userDto.PhoneNumber,
+                Password = userDto.Password,
+                Email = userDto.Email,
+                PhoneNumber = userDto.PhoneNumber
+            });
+
+
+            return View("SuccessRegister", userDto);
+        }
+
+        public ActionResult VerifyPhoneNumber(string PhoneNumber)
+        {
+            if (_userRepository.UserExists(PhoneNumber) == false)
+            {
+                return Json($"شماره {PhoneNumber} تکراری است .");
+            }
+            return Json(true);
         }
 
         [HttpGet]

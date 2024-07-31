@@ -1,4 +1,6 @@
-﻿namespace EShop.Models.Dto
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace EShop.Models.Dto
 {
     public class UserSingUpWithEmailDto
     {
@@ -19,6 +21,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        [Remote("VerifyPhoneNumber", "Account")]
         public string PhoneNumber { get; set; }
         //public string Username { get; set; }
         public string Password { get; set; }

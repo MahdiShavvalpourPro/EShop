@@ -33,7 +33,7 @@ builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddScoped<IValidator<UserSingUpDto>, UserSingUpValidation>();
+//builder.Services.AddScoped<IValidator<UserSingUpDto>, UserSingUpValidation>();
 builder.Services.AddScoped<IValidator<UserLoginDto>, UserLoginValidation>();
 
 #endregion
